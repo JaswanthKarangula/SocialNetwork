@@ -6,8 +6,26 @@ public class Interaction {
     protected Post post;
     protected User user;
     protected int interactionType;
+    protected int commentId;
 
-    public Interaction(Post post, User user) {
+    public int getInteractionId() {
+        return interactionId;
+    }
+
+    public void setInteractionId(int interactionId) {
+        this.interactionId = interactionId;
+    }
+
+    public int getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
+    }
+
+    public Interaction(Post post, User user, int interactionId) {
+        this.interactionId=interactionId;
         this.post = post;
         this.user = user;
     }

@@ -19,7 +19,7 @@ public class User {
         id=generateUserID();
     }
 
-    User(String email,String password){
+    public User(String email,String password){
         id=generateUserID();
         this.email=email;
         this.password=password;

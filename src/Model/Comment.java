@@ -5,14 +5,12 @@ public class Comment extends Interaction{
     private int commentId;
     private String commentData;
     private int commentType;
-    private Comment replyTo;
 
-    public Comment(Post post, User user) {
-        super(post, user);
-    }
 
-    public Comment(Comment cmt,User user){
-        super(cmt.getPost(),user);
+    public Comment(Post post, User user,int interactionid,int commentId) {
+        super(post,user,interactionid);
+        this.commentId=commentId;
+
     }
 
     public String getCommentData() {
@@ -31,13 +29,7 @@ public class Comment extends Interaction{
         this.commentType = commentType;
     }
 
-    public Comment getReplyTo() {
-        return replyTo;
-    }
 
-    public void setReplyTo(Comment replyTo) {
-        this.replyTo = replyTo;
-    }
 
 
 }

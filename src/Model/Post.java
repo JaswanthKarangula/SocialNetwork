@@ -14,15 +14,20 @@ public class Post {
     private int postDataType;
     private User user;
 
+    public int getPostId1() {
+        return postId;
+    }
 
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
 
-
-    Post(User user){
+    public Post(User user){
         this.user=user;
         postId=getPostId();
     }
 
-    Post(User user,int pstId){
+    public Post(User user,int pstId){
         this.user=user;
         this.postId=pstId;
     }
