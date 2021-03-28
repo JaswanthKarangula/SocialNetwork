@@ -6,7 +6,7 @@ public class Interaction {
     protected Post post;
     protected User user;
     protected int interactionType;
-    protected int commentId;
+    protected int replyTo;
 
     public int getInteractionId() {
         return interactionId;
@@ -16,12 +16,12 @@ public class Interaction {
         this.interactionId = interactionId;
     }
 
-    public int getCommentId() {
-        return commentId;
+    public int getReplyTo() {
+        return replyTo;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setReplyTo(int commentId) {
+        this.replyTo = commentId;
     }
 
     public Interaction(Post post, User user, int interactionId) {

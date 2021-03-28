@@ -13,6 +13,14 @@ public class Comment extends Interaction{
 
     }
 
+    public int getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
+    }
+
     public String getCommentData() {
         return commentData;
     }
@@ -28,8 +36,5 @@ public class Comment extends Interaction{
     public void setCommentType(int commentType) {
         this.commentType = commentType;
     }
-
-
-
 
 }

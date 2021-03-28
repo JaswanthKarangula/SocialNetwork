@@ -33,6 +33,10 @@ public class User {
         this.password=password;
     }
 
+    public User(int user_id) {
+        this.id=user_id;
+    }
+
 
     private int generateUserID(){
         userNo++;

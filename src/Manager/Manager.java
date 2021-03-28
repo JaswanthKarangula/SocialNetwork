@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Manager {
     protected User currentUser;
-    protected Map<String, User> users;
+    protected Map<Integer, User> users;
     protected Map<Integer, Post> posts;
     protected Map<Integer, Interaction> interactions;
     protected Map<Integer,ArrayList<Integer>> allInteractionsToPost;
@@ -21,7 +21,7 @@ public class Manager {
 
     public Manager() {
         currentUser = null;
-        users = new HashMap<String, User>();
+        users = new HashMap<Integer, User>();
         posts = new HashMap<Integer, Post>();
         interactions=new HashMap<Integer,Interaction>();
         comments =new HashMap<>();
@@ -36,15 +36,15 @@ public class Manager {
         this.currentUser = currentUser;
     }
 
-    public void addUser(String userName, String email, String password,
-                        Date dob, boolean gender, String mobileNo, String city) {
+    public void addUser(int id, String userName, String email, String password,
+                        Date dob, int gender, String mobileNo, String city) {
 
         if (users.containsKey(email)) {
             User user = new User(email, password);
             user.setUserName(userName);
             user.setDateOfBirth((java.sql.Date) dob);
             user.setCity(city);
-            users.put(email, user);
+            users.put(id, user);
             System.out.println(users);
             this.setCurrentUser(user);
             dbManager.addUserDB(user);
@@ -54,29 +54,25 @@ public class Manager {
         }
     }
 
-    public void removeUser(String email, String password) {
-        User user = getUser(email);
+    public void removeUser(int  id) {
+        User user = getUser(id);
         if (user != null) {
-            if (password.equals(user.getPassword())) {
                 dbManager.removeUserDB(user);
                 users.remove(user);
                 System.out.println(users);
                 System.out.println("User removed successfully...");
-            } else {
-                System.out
-                        .println("User email id or password does not match...");
-            }
+
         } else {
             System.out.println("Error occurred...Can not remove user...");
         }
     }
 
-    public User getUser(String email) {
-        if (users.containsKey(email)) {
-            return users.get(email);
+    public User getUser(int id) {
+        if (users.containsKey(id)) {
+            return users.get(id);
         } else {
             System.out
-                    .println("Your email id does not match with us... Please provide correct one...");
+                    .println("Your  id does not match with us... Please provide correct one...");
         }
         return null;
     }
@@ -114,18 +110,18 @@ public class Manager {
         }
     }
 
-    public void addInteraction(Post post,User user,int interactionType,int interactionId,String commentData,int commentId,Comment replyTo,int commentType){
+    public void addInteraction(Post post,User user,int interactionType,int interactionId,String commentData,int commentId,int replyTo,int commentType){
         Interaction interaction= new Interaction(post,user,interactionId);
         interaction.setInteractionType(interactionType);
         if(interactionType==2){
             addComment(commentId,commentData,interaction);
         }
         else if(interactionType==3){
-            interaction.setCommentId(commentId);
+            interaction.setReplyTo(commentId);
         }
         else if(interactionType==4){
 
-            interaction.setCommentId(commentId);
+            interaction.setReplyTo(commentId);
             addComment(commentId,commentData,interaction);
         }
         interactions.put(interactionId,interaction);
