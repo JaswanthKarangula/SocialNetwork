@@ -7,8 +7,8 @@ public class Comment extends Interaction{
     private int commentType;
 
 
-    public Comment(Post post, User user,int interactionid,int commentId) {
-        super(post,user,interactionid);
+    public Comment(Post post, User user) {
+        super(post,user);
         this.commentId=commentId;
 
     }

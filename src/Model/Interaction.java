@@ -8,6 +8,14 @@ public class Interaction {
     protected int interactionType;
     protected int replyTo;
 
+
+
+    public Interaction(Post post, User user) {
+
+        this.post = post;
+        this.user = user;
+    }
+
     public int getInteractionId() {
         return interactionId;
     }
@@ -22,12 +30,6 @@ public class Interaction {
 
     public void setReplyTo(int commentId) {
         this.replyTo = commentId;
-    }
-
-    public Interaction(Post post, User user, int interactionId) {
-        this.interactionId=interactionId;
-        this.post = post;
-        this.user = user;
     }
 
     public Post getPost() {

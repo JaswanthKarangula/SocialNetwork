@@ -16,32 +16,14 @@ public class User {
     protected String state;
 
     User(){
-        id=generateUserID();
     }
 
     public User(String email,String password){
-        id=generateUserID();
+
         this.email=email;
         this.password=password;
     }
 
-
-
-    User(String email, String password, int id ){
-        this.id=id;
-        this.email=email;
-        this.password=password;
-    }
-
-    public User(int user_id) {
-        this.id=user_id;
-    }
-
-
-    private int generateUserID(){
-        userNo++;
-        return (userNo);
-    }
 
     public int getId() {return id; }
 

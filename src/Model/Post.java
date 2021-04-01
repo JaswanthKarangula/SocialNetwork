@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Post {
 
-    private static int PostNo;
+
     private int postId;
     private String postTitle;
     private Timestamp postTimestamp;
@@ -24,18 +24,11 @@ public class Post {
 
     public Post(User user){
         this.user=user;
-        postId=getPostId();
+
     }
 
-    public Post(User user,int pstId){
-        this.user=user;
-        this.postId=pstId;
-    }
 
-    int getPostId(){
-        PostNo++;
-        return PostNo;
-    }
+
     public String getPostTitle() {
         return postTitle;
     }

@@ -17,13 +17,13 @@ public class Manager {
     protected Map<Integer,ArrayList<Integer> > allCommentsToPost;
     protected Map<User,User> friendships;
 
-    private DbManager dbManager;
+    private final DbManager dbManager;
 
     public Manager() {
         currentUser = null;
-        users = new HashMap<Integer, User>();
-        posts = new HashMap<Integer, Post>();
-        interactions=new HashMap<Integer,Interaction>();
+        users = new HashMap<>();
+        posts = new HashMap<>();
+        interactions=new HashMap<>();
         comments =new HashMap<>();
         dbManager = new DbManager();
     }
@@ -36,29 +36,30 @@ public class Manager {
         this.currentUser = currentUser;
     }
 
-    public void addUser(int id, String userName, String email, String password,
-                        Date dob, int gender, String mobileNo, String city) {
+    public void addUser( String userName, String firstName,String lastName,String email, String password,
+                        Date dob, String city) {
 
-        if (users.containsKey(email)) {
+        int id= dbManager.getNextUserId();
+
             User user = new User(email, password);
             user.setUserName(userName);
+            user.setLastName(lastName);
+            user.setFirstName(firstName);
             user.setDateOfBirth((java.sql.Date) dob);
             user.setCity(city);
             users.put(id, user);
-            System.out.println(users);
+            System.out.println(user);
             this.setCurrentUser(user);
             dbManager.addUserDB(user);
             System.out.println("User added successfully...");
-        } else {
-            System.out.println("Can not add user...");
-        }
+
     }
 
     public void removeUser(int  id) {
         User user = getUser(id);
         if (user != null) {
                 dbManager.removeUserDB(user);
-                users.remove(user);
+                users.remove(id);
                 System.out.println(users);
                 System.out.println("User removed successfully...");
 
@@ -76,9 +77,11 @@ public class Manager {
         }
         return null;
     }
-    public void addPost(int postId,String postName,String postContent,User postUser){
+    public void addPost(String postName,String postContent,User postUser){
+        int postId= dbManager.getNextPostId();
         Timestamp currTimestamp=new Timestamp(System.currentTimeMillis());
-        Post post=new Post(postUser,postId);
+        Post post=new Post(postUser);
+        post.setPostId(postId);
         post.setPostTitle(postName);
         post.setContent(postContent);
         post.setPostTimestamp(currTimestamp);
@@ -103,41 +106,43 @@ public class Manager {
                 dbManager.removePostDB(post);
                 posts.remove(postID);
                 System.out.println(users);
-                System.out.println("User removed successfully...");
+                System.out.println("post removed successfully...");
 
         } else {
             System.out.println("Error occurred...Can not remove Post...");
         }
     }
 
-    public void addInteraction(Post post,User user,int interactionType,int interactionId,String commentData,int commentId,int replyTo,int commentType){
-        Interaction interaction= new Interaction(post,user,interactionId);
+    public void addInteraction(Post post,User user,int interactionType,String commentData,int replyTo,int commentType){
+        int interactionId= dbManager.getNextInteractionId();
+        Interaction interaction= new Interaction(post,user);
+        interaction.setInteractionId(interactionId);
         interaction.setInteractionType(interactionType);
         if(interactionType==2){
-            addComment(commentId,commentData,interaction);
+
+            addComment(commentData,interaction);
         }
         else if(interactionType==3){
-            interaction.setReplyTo(commentId);
+            interaction.setReplyTo(replyTo);
         }
         else if(interactionType==4){
 
-            interaction.setReplyTo(commentId);
-            addComment(commentId,commentData,interaction);
+            interaction.setReplyTo(replyTo);
+            addComment(commentData,interaction);
         }
         interactions.put(interactionId,interaction);
         dbManager.addInteractionDB(interaction);
 
     }
-    public void addComment(int commentid,String commentData,Interaction interaction){
-        Comment comment=new Comment(interaction.getPost(),interaction.getUser(),interaction.getInteractionId(),commentid);
+    public void addComment(String commentData,Interaction interaction){
+        int commentid= dbManager.getNextCommentId();
+        Comment comment=new Comment(interaction.getPost(),interaction.getUser());
+        comment.setInteractionId(interaction.getInteractionId());
+        comment.setCommentId(commentid);
         comment.setCommentData(commentData);
         comments.put(commentid,comment);
         int key=interaction.getPost().getPostId1();
-        ArrayList<Integer> list =allCommentsToPost.get(key);
-        if(list==null){
-            list=new ArrayList<Integer>();
-            allCommentsToPost.put(key,list);
-        }
+        ArrayList<Integer> list = allCommentsToPost.computeIfAbsent(key, k -> new ArrayList<>());
         list.add(commentid);
         dbManager.addComment(comment);
 
@@ -155,7 +160,7 @@ public class Manager {
         if (interaction != null) {
 
                 dbManager.removeInteractionDB(interaction);
-                interactions.remove(interaction);
+                interactions.remove(interactionId);
                 System.out.println(users);
                 System.out.println("Interaction  removed successfully...");
                 Integer postId=interaction.getPost().getPostId1();

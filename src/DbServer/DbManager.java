@@ -48,6 +48,23 @@ public class DbManager {
 
     }
 
+    public int getNextUserId(){
+        int user_id=1;
+        try {
+            query = " select * form users1 order by id desc limit 1";
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(query);
+            if(resultSet.next()){
+                user_id=resultSet.getInt("id")+1;
+            }
+
+        }
+        catch (Exception e){
+            System.out.println("Exception  "+e);
+        }
+        return user_id;
+    }
+
 
     public void removeUserDB(User user)   {
 
@@ -61,6 +78,23 @@ public class DbManager {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getNextPostId(){
+        int post_id=1;
+        try {
+            query = " select * form Posts order by post_id desc limit 1";
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(query);
+            if(resultSet.next()){
+                post_id=resultSet.getInt("post_id")+1;
+            }
+
+        }
+        catch (Exception e){
+            System.out.println("Exception  "+e);
+        }
+        return post_id;
     }
 
     public void addPostDB(Post post) {
@@ -84,6 +118,23 @@ public class DbManager {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getNextInteractionId(){
+        int interaction_id=1;
+        try {
+            query = " select * form interaction order by interaction_id desc limit 1";
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(query);
+            if(resultSet.next()){
+                interaction_id=resultSet.getInt("interaction_id")+1;
+            }
+
+        }
+        catch (Exception e){
+            System.out.println("Exception  "+e);
+        }
+        return interaction_id;
     }
 
     public void removeInteractionDB(Interaction interaction) {
@@ -112,6 +163,23 @@ public class DbManager {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getNextCommentId(){
+        int comment_id=1;
+        try {
+            query = " select * form comment order by comment_id desc limit 1";
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(query);
+            if(resultSet.next()){
+                comment_id=resultSet.getInt("interaction_id")+1;
+            }
+
+        }
+        catch (Exception e){
+            System.out.println("Exception  "+e);
+        }
+        return comment_id;
     }
 
     public void addComment(Comment comment) {

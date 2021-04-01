@@ -58,16 +58,15 @@ public class Caller {
                     System.out.println(post);
                     break;
                 case 3:
-                    System.out.println("Enter user id");
-                    user_id= dis.readInt();
-                    user= manager.getUser(user_id);
-                    System.out.println("Enter username firstname  last name and  email and pass");
+
+                    System.out.println("Enter username firstname  last name and  email and pass city");
                     userName=dis.readLine();
                     firstName=dis.readLine();
                     lastName=dis.readLine();
                     email=dis.readLine();
                     pass=dis.readLine();
-                    manager.addUser(user_id,userName,email,pass,null,-1,null,null);
+                    String city=dis.readLine();
+                    manager.addUser(userName,firstName,lastName,email,pass,null,city);
 
                     break;
                 case 4:
@@ -88,12 +87,12 @@ public class Caller {
                     // getALLCommentsForPost(con);
                     break;
                 case 8:
-                    System.out.println("Enter post id,postName,postContent,userId");
-                    post_id= dis.readInt();
+                    System.out.println("Enter postName,postContent,userId");
+
                     postName=dis.readLine();
                     postContent=dis.readLine();
                     user_id=dis.readInt();
-                    manager.addPost(post_id,postName,postContent,manager.getUser(user_id));
+                    manager.addPost(postName,postContent,manager.getUser(user_id));
 
                     break;
                 case 9:
@@ -101,25 +100,23 @@ public class Caller {
 //                    friendship.addFriends(con);
                     break;
                 case 10:
-                    System.out.println("Enter interaction id  ");
-                    interaction_id=dis.readInt();
+
                     System.out.println("Enter post_id,userid,interaction type");
                     post_id=dis.readInt();
                     user_id=dis.readInt();
                     interaction_type=dis.readInt();
                     comment_data=null;
                     replyTo=-1;
-                    comment_id=-1;
+
                     if(interaction_type==2 || interaction_type==4){
-                        System.out.println("Enter comment id and  data");
-                        comment_id=dis.readInt();
+                        System.out.println("Enter comment  data");
                         comment_data=dis.readLine();
                     }
                     if(interaction_type==3 || interaction_type==4){
-                        System.out.println("Enter comment id to which you are replying ");
+                        System.out.println("Enter comment id to which you are interacting ");
                         replyTo= dis.readInt();
                     }
-                    manager.addInteraction(manager.getPost(post_id), manager.getUser(user_id),interaction_type,interaction_id,comment_data,comment_id,replyTo,1);
+                    manager.addInteraction(manager.getPost(post_id), manager.getUser(user_id),interaction_type,comment_data,replyTo,1);
 
                     break;
                 case 11:
