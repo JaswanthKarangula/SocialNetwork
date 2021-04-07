@@ -3,6 +3,9 @@ package Model;
 import java.sql.*;
 import java.util.Scanner;
 
+//mysql-connector-java-8.0.23.jar
+
+
 public class Post {
 
 

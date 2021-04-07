@@ -5,12 +5,13 @@ import Manager.Manager;
 import Model.*;
 
 import java.io.DataInputStream;
+import java.util.Scanner;
 
 public class Caller {
     public static void main(String[] args) throws Exception {
 
         Manager manager = new Manager();
-        DataInputStream dis = new DataInputStream(System.in);
+
 
         String options="enter 0 to finish process \n"
                 +"enter 1 to see users data \n"
@@ -18,7 +19,7 @@ public class Caller {
                 + "enter 3 to add new   users  \n"
                 +"enter 4 to delete a  users  \n"
                 +"enter 5 to update users name \n"
-                +"enter 6 to show all users ids of friends\n"
+                +"enter 6 to show all  friends\n"
                 +"enter 7 to show all comments on any post  \n"
                 +"enter 8 to add posts  \n"
                 +"enter 9 to add friends \n"
@@ -27,7 +28,7 @@ public class Caller {
                 +"enter 12 to show all posts  of friends  \n";
 
         System.out.println();
-
+        Scanner sc= new Scanner(System.in);
         User user;
         Post post ;
         Friendship friendship;
@@ -37,7 +38,7 @@ public class Caller {
         String userName,firstName,lastName,email,pass,postName,postContent,comment_data;
         while(option!=0){
             System.out.println(options);
-            option=dis.readInt();
+            option=sc.nextInt();
             System.out.println("\n******************** \n");
 
             switch(option) {
@@ -47,74 +48,87 @@ public class Caller {
                     break;
                 case 1:
                     System.out.println("Enter user id");
-                    user_id= dis.readInt();
+                    user_id= sc.nextInt();
                     user= manager.getUser(user_id);
                     System.out.println(user);
                     break;
                 case 2:
                     System.out.println("Enter post id");
-                    post_id= dis.readInt();
+                    post_id= sc.nextInt();
                     post= manager.getPost(post_id);
                     System.out.println(post);
                     break;
                 case 3:
 
-                    System.out.println("Enter username firstname  last name and  email and pass city");
-                    userName=dis.readLine();
-                    firstName=dis.readLine();
-                    lastName=dis.readLine();
-                    email=dis.readLine();
-                    pass=dis.readLine();
-                    String city=dis.readLine();
+                    System.out.println("Enter username firstname  last name and  email and pass and  city");
+                    userName=sc.next();
+                    firstName=sc.next();
+                    lastName=sc.next();
+                    email=sc.next();
+                    pass=sc.next();
+                    String city=sc.next();
                     manager.addUser(userName,firstName,lastName,email,pass,null,city);
 
                     break;
                 case 4:
                     System.out.println("Enter user id");
-                    user_id= dis.readInt();
+                    user_id= sc.nextInt();
                     manager.removeUser(user_id);
 
                     break;
                 case 5:
-//                    user.setUserId();
-//                    user.updateUserName(con);
+                    System.out.println("Eneter id of the person and upfated user name  ");
+                    user_id=sc.nextInt();
+                    userName=sc.next();
+                    //caller functionn
+
                     break;
                 case 6:
-//                    user.setUserId();
-//                    user.getAllFriendsOfUser(con);
+                    System.out.println("Enter id of person");
+                    user_id=sc.nextInt();
+                    user=manager.getUser(user_id);
+                    //caller function
                     break;
                 case 7:
-                    // getALLCommentsForPost(con);
+                    System.out.println("Enter id of person");
+                    post_id=sc.nextInt();
+                    post=manager.getPost(post_id);
+                    //caller function
                     break;
                 case 8:
                     System.out.println("Enter postName,postContent,userId");
 
-                    postName=dis.readLine();
-                    postContent=dis.readLine();
-                    user_id=dis.readInt();
+                    postName=sc.next();
+                    postContent=sc.next();
+                    user_id=sc.nextInt();
                     manager.addPost(postName,postContent,manager.getUser(user_id));
 
                     break;
                 case 9:
-//                    friendship.setUsers();
-//                    friendship.addFriends(con);
+                    System.out.println("Enter ids of person");
+                    user_id= sc.nextInt();
+                    user=manager.getUser(user_id);
+
+                    user_id=sc.nextInt();
+                    //caller function
+
                     break;
                 case 10:
 
                     System.out.println("Enter post_id,userid,interaction type");
-                    post_id=dis.readInt();
-                    user_id=dis.readInt();
-                    interaction_type=dis.readInt();
+                    post_id=sc.nextInt();
+                    user_id=sc.nextInt();
+                    interaction_type=sc.nextInt();
                     comment_data=null;
                     replyTo=-1;
 
                     if(interaction_type==2 || interaction_type==4){
                         System.out.println("Enter comment  data");
-                        comment_data=dis.readLine();
+                        comment_data=sc.next();
                     }
                     if(interaction_type==3 || interaction_type==4){
                         System.out.println("Enter comment id to which you are interacting ");
-                        replyTo= dis.readInt();
+                        replyTo= sc.nextInt();
                     }
                     manager.addInteraction(manager.getPost(post_id), manager.getUser(user_id),interaction_type,comment_data,replyTo,1);
 

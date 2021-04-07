@@ -7,17 +7,17 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class Manager {
-    protected User currentUser;
-    protected Map<Integer, User> users;
-    protected Map<Integer, Post> posts;
-    protected Map<Integer, Interaction> interactions;
-    protected Map<Integer,ArrayList<Integer>> allInteractionsToPost;
-    protected Map<Integer,Comment> comments;
-    protected Map<Integer,Integer> interactionToComment;
-    protected Map<Integer,ArrayList<Integer> > allCommentsToPost;
-    protected Map<User,User> friendships;
+    private User currentUser;
+    private Map<Integer, User> users;
+    private Map<Integer, Post> posts;
+    private Map<Integer, Interaction> interactions;
+    private Map<Integer,ArrayList<Integer>> allInteractionsToPost;
+    private Map<Integer,Comment> comments;
+    private Map<Integer,Integer> interactionToComment;
+    private Map<Integer,ArrayList<Integer> > allCommentsToPost;
+    private Map<User,User> friendships;
 
-    private final DbManager dbManager;
+    private  final DbManager dbManager;
 
     public Manager() {
         currentUser = null;
@@ -39,7 +39,7 @@ public class Manager {
     public void addUser( String userName, String firstName,String lastName,String email, String password,
                         Date dob, String city) {
 
-        int id= dbManager.getNextUserId();
+        int id= dbManager.getNextUserIdDB();
 
             User user = new User(email, password);
             user.setUserName(userName);
@@ -78,7 +78,7 @@ public class Manager {
         return null;
     }
     public void addPost(String postName,String postContent,User postUser){
-        int postId= dbManager.getNextPostId();
+        int postId= dbManager.getNextPostIdDB();
         Timestamp currTimestamp=new Timestamp(System.currentTimeMillis());
         Post post=new Post(postUser);
         post.setPostId(postId);
@@ -114,7 +114,7 @@ public class Manager {
     }
 
     public void addInteraction(Post post,User user,int interactionType,String commentData,int replyTo,int commentType){
-        int interactionId= dbManager.getNextInteractionId();
+        int interactionId= dbManager.getNextInteractionIdDB();
         Interaction interaction= new Interaction(post,user);
         interaction.setInteractionId(interactionId);
         interaction.setInteractionType(interactionType);
@@ -135,7 +135,7 @@ public class Manager {
 
     }
     public void addComment(String commentData,Interaction interaction){
-        int commentid= dbManager.getNextCommentId();
+        int commentid= dbManager.getNextCommentIdDB();
         Comment comment=new Comment(interaction.getPost(),interaction.getUser());
         comment.setInteractionId(interaction.getInteractionId());
         comment.setCommentId(commentid);
@@ -144,7 +144,7 @@ public class Manager {
         int key=interaction.getPost().getPostId1();
         ArrayList<Integer> list = allCommentsToPost.computeIfAbsent(key, k -> new ArrayList<>());
         list.add(commentid);
-        dbManager.addComment(comment);
+        dbManager.addCommentDB(comment);
 
     }
     public Interaction getInteraction(int interactionId) {
